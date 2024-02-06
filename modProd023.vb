@@ -3,7 +3,11 @@ Option Explicit On
 Module Module1
 
     ' 2024/01/19    CB  v3.5    Disable Wait and Cycle, text highlighting
-    Public Const gblVersion As String = "3.5"
+    ' 2024/01/31    CB  v3.6    Align shot size to new rig expectations
+    ' 2024/01/31    CB  v3.7    dispense retriggered
+    ' 2024/02/06    CB  v3.8    Install shot size test + change value sent to rig
+
+    Public Const gblVersion As String = "3.8"
 
 
     Declare Function GetPrivateProfileStringByKeyName Lib "kernel32"  Alias "GetPrivateProfileStringA"(ByVal lpszSection As String, ByVal lpszKey As String, ByVal lpszDefault As String, ByVal lpszReturnBuffer As String, ByVal cchReturnBuffer As Integer, ByVal lpszFile As String) As Integer

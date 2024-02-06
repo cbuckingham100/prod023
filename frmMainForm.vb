@@ -50,7 +50,7 @@ Friend Class frmMainForm
 
             txtSerial.Focus()
 
-            For i = 0 To optHeadType.UBound ' clear head selection
+            For i = 1 To optHeadType.UBound ' clear head selection
                 optHeadType(i).Checked = 0
             Next
 
@@ -320,11 +320,11 @@ OpenError:
 	
 	Sub ResetForm()
 		Dim i As Short
-		For i = 0 To 3
-			optHeadType(i).Checked = False
-		Next i
-		
-		txtSerial.Text = ""
+        For i = 1 To 3
+            optHeadType(i).Checked = False
+        Next i
+
+        txtSerial.Text = ""
 		cmdCancel.Enabled = False
 		cmdQuit.Enabled = True
 		
@@ -353,12 +353,12 @@ OpenError:
 	
 	Sub EnablePrintHeadTypes(ByRef booState As Boolean)
 		Dim i As Short
-		
-		For i = 0 To 3
-			optHeadType(i).Enabled = booState
-		Next i
-		
-		frmPrintHeadType.Enabled = booState
+
+        For i = 1 To 3
+            optHeadType(i).Enabled = booState
+        Next i
+
+        frmPrintHeadType.Enabled = booState
 		
 	End Sub
 	
@@ -470,7 +470,7 @@ OpenError:
             '       Green background
             '           clearing on 30 sec timer?
             '       Record potting success
-            log.Debug("Output from the PCB : Sucess Shot fired")
+            log.Debug("Output from the PCB : Success Shot fired")
             If UpdateRecordAfterPotting((txtSerial.Text)) <> "OK" Then
 				MsgBox("Unable to record successful potting for - " & txtSerial.Text & vbCrLf & "Please inform supervision / Business System", MsgBoxStyle.OKOnly + MsgBoxStyle.Exclamation, "Success Log Failure")
 			End If
@@ -525,24 +525,35 @@ OpenError:
 	
 	Sub SetShotSize()
 		Dim intShotDemand As Short
-		
-		If optHeadType(0).Checked = True Then
-			intShotDemand = 1
-		ElseIf optHeadType(1).Checked = True Then 
-			intShotDemand = 2
-		ElseIf optHeadType(2).Checked = True Then 
-			intShotDemand = 3
-		ElseIf optHeadType(3).Checked = True Then 
-			intShotDemand = 4
-		Else
-			MsgBox("Undefined pot size", MsgBoxStyle.Critical + MsgBoxStyle.OKOnly, "Dunno what you mean...")
-		End If
-		
-		If booIOBoardPresent = True Then
-			ULStat = cbDOut(BoardNum, FIRSTPORTC, intShotDemand)
-		End If
-		
-	End Sub
+
+        If booIOBoardPresent = True Then
+            ULStat = cbDBitOut(BoardNum, FIRSTPORTA, 0, 0) ' disable to dispense
+        End If
+
+        ' Reset rig
+        Wait(2)
+
+        ' NB note rig is expecting different values to shot size given in database
+
+        If optHeadType(1).Checked = True Then
+            intShotDemand = 1
+        ElseIf optHeadType(2).Checked = True Then
+            intShotDemand = 1 ' was 2 or 3
+        ElseIf optHeadType(3).Checked = True Then
+            intShotDemand = 4
+        Else
+            MsgBox("Undefined pot size", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Potting Shot Size")
+        End If
+
+        If booIOBoardPresent = True Then
+            ULStat = cbDOut(BoardNum, FIRSTPORTC, intShotDemand)
+        End If
+
+        ' Allow rig to accept configuration
+
+        Wait(2)
+
+    End Sub
 	
 	Private Sub tmrOvrCountDown_Tick(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles tmrOvrCountDown.Tick
 		intOvrTime = intOvrTime - 1
@@ -903,18 +914,25 @@ OpenError:
 
                         ' set and enable rig for potting
                         Select Case Trim(typRecentStartEnquiry.strPottingShot)
-                            Case "1"
-                                optHeadType(0).Checked = True
+
+                            ' Mk 7
                             Case "2"
                                 optHeadType(1).Checked = True
+
+                            ' Mk 7 M
                             Case "3"
                                 optHeadType(2).Checked = True
+
+                            ' Mk 9 / 11
                             Case "4"
                                 optHeadType(3).Checked = True
+
                             Case Else
                                 MsgBox("Potting shot - " & typRecentStartEnquiry.strPottingShot & " - Not recognised" & vbCrLf & "Inform supervision.", MsgBoxStyle.OkOnly + MsgBoxStyle.Critical, "Inform supervision !!")
                                 Exit Sub
                         End Select
+
+                        Application.DoEvents()
 
                         '  v3.5 - stop text being highlighted
                         txtSerial.Focus()
@@ -994,6 +1012,64 @@ OpenError:
 
 
     End Sub
+
+    Private Sub btnTest_Click(sender As Object, e As EventArgs) Handles btnTest.Click
+
+        Dim intShotDemand As Short
+
+        If booIOBoardPresent = True Then
+            ULStat = cbDBitOut(BoardNum, FIRSTPORTA, 0, 0) ' disable to dispense
+        End If
+
+        Wait(2)
+
+        If txtTest.Text = "" Then
+            MsgBox("Undefined pot size", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Test")
+            Exit Sub
+        End If
+
+        intShotDemand = CInt(txtTest.Text)
+
+        If booIOBoardPresent = True Then
+            ULStat = cbDOut(BoardNum, FIRSTPORTC, intShotDemand)
+        End If
+
+        Wait(2)
+
+        If booIOBoardPresent = True Then
+            ULStat = cbDBitOut(BoardNum, FIRSTPORTA, 0, 1) ' enable to dispense
+        End If
+        EnablePrintHeadTypes(False)
+
+        tmrSecTickAuto.Enabled = True
+        gblSecTickerAuto = 0
+
+        lblTicker.Text = CStr(gblSecTickerAuto)
+
+        colShowWhileWaiting = colWaiting
+
+        tmrCheckShotCompleteAuto.Interval = FlashInterval
+        tmrCheckShotCompleteAuto.Enabled = True
+
+        tmrRemoveOkSignal.Interval = gblWaitForSuccess - gblRigCycleTime
+        tmrRemoveOkSignal.Enabled = True
+
+        cmdCancel.Enabled = True
+        cmdQuit.Enabled = False
+        chkOkToDispense.Enabled = False
+
+    End Sub
+
+    Private Sub Wait(ByVal seconds As Integer)
+        For i As Integer = 0 To seconds * 100
+            System.Threading.Thread.Sleep(10)
+            Application.DoEvents()
+        Next
+    End Sub
+
+
+
+
 
 
 End Class

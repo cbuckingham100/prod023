@@ -32,9 +32,8 @@
 	Public WithEvents tmrSecTickAuto As System.Windows.Forms.Timer
 	Public WithEvents txtSerial As System.Windows.Forms.TextBox
 	Public WithEvents tmrCheckShotComplete As System.Windows.Forms.Timer
-	Public WithEvents _optHeadType_0 As System.Windows.Forms.RadioButton
-	Public WithEvents cmdQuit As System.Windows.Forms.Button
-	Public WithEvents chkOkToDispense As System.Windows.Forms.CheckBox
+    Public WithEvents cmdQuit As System.Windows.Forms.Button
+    Public WithEvents chkOkToDispense As System.Windows.Forms.CheckBox
 	Public WithEvents lblShotCompletePrompt As System.Windows.Forms.Label
 	Public WithEvents lblShotComplete As System.Windows.Forms.Label
 	Public WithEvents Frame2 As System.Windows.Forms.GroupBox
@@ -72,7 +71,6 @@
         Me.tmrSecTickAuto = New System.Windows.Forms.Timer(Me.components)
         Me.txtSerial = New System.Windows.Forms.TextBox()
         Me.tmrCheckShotComplete = New System.Windows.Forms.Timer(Me.components)
-        Me._optHeadType_0 = New System.Windows.Forms.RadioButton()
         Me.cmdQuit = New System.Windows.Forms.Button()
         Me.Frame2 = New System.Windows.Forms.GroupBox()
         Me.chkOkToDispense = New System.Windows.Forms.CheckBox()
@@ -93,8 +91,11 @@
         Me.Label5 = New System.Windows.Forms.Label()
         Me.grpPanel = New System.Windows.Forms.Panel()
         Me.btnRePot = New System.Windows.Forms.Button()
+        Me.txtTest = New System.Windows.Forms.TextBox()
+        Me.btnTest = New System.Windows.Forms.Button()
         Me.MainMenu1.SuspendLayout()
         Me.Frame2.SuspendLayout()
+        Me.frmPrintHeadType.SuspendLayout()
         CType(Me.optHeadType, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -221,21 +222,6 @@
         '
         Me.tmrCheckShotComplete.Interval = 1
         '
-        '_optHeadType_0
-        '
-        Me._optHeadType_0.BackColor = System.Drawing.SystemColors.Control
-        Me._optHeadType_0.Cursor = System.Windows.Forms.Cursors.Default
-        Me._optHeadType_0.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.optHeadType.SetIndex(Me._optHeadType_0, CType(0, Short))
-        Me._optHeadType_0.Location = New System.Drawing.Point(127, 297)
-        Me._optHeadType_0.Name = "_optHeadType_0"
-        Me._optHeadType_0.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me._optHeadType_0.Size = New System.Drawing.Size(129, 25)
-        Me._optHeadType_0.TabIndex = 9
-        Me._optHeadType_0.TabStop = True
-        Me._optHeadType_0.Text = "Mk &5"
-        Me._optHeadType_0.UseVisualStyleBackColor = False
-        '
         'cmdQuit
         '
         Me.cmdQuit.BackColor = System.Drawing.SystemColors.Control
@@ -308,13 +294,13 @@
         Me._optHeadType_3.Cursor = System.Windows.Forms.Cursors.Default
         Me._optHeadType_3.ForeColor = System.Drawing.SystemColors.ControlText
         Me.optHeadType.SetIndex(Me._optHeadType_3, CType(3, Short))
-        Me._optHeadType_3.Location = New System.Drawing.Point(127, 369)
+        Me._optHeadType_3.Location = New System.Drawing.Point(13, 80)
         Me._optHeadType_3.Name = "_optHeadType_3"
         Me._optHeadType_3.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me._optHeadType_3.Size = New System.Drawing.Size(129, 25)
         Me._optHeadType_3.TabIndex = 3
         Me._optHeadType_3.TabStop = True
-        Me._optHeadType_3.Text = "Mk &9"
+        Me._optHeadType_3.Text = "Mk &9  / Mk 11"
         Me._optHeadType_3.UseVisualStyleBackColor = False
         '
         '_optHeadType_2
@@ -323,13 +309,13 @@
         Me._optHeadType_2.Cursor = System.Windows.Forms.Cursors.Default
         Me._optHeadType_2.ForeColor = System.Drawing.SystemColors.ControlText
         Me.optHeadType.SetIndex(Me._optHeadType_2, CType(2, Short))
-        Me._optHeadType_2.Location = New System.Drawing.Point(127, 345)
+        Me._optHeadType_2.Location = New System.Drawing.Point(13, 49)
         Me._optHeadType_2.Name = "_optHeadType_2"
         Me._optHeadType_2.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me._optHeadType_2.Size = New System.Drawing.Size(129, 25)
+        Me._optHeadType_2.Size = New System.Drawing.Size(142, 25)
         Me._optHeadType_2.TabIndex = 2
         Me._optHeadType_2.TabStop = True
-        Me._optHeadType_2.Text = "Mk 7 - Midi / &Ultima"
+        Me._optHeadType_2.Text = "Mk 7 M - Midi / &Ultima"
         Me._optHeadType_2.UseVisualStyleBackColor = False
         '
         '_optHeadType_1
@@ -338,7 +324,7 @@
         Me._optHeadType_1.Cursor = System.Windows.Forms.Cursors.Default
         Me._optHeadType_1.ForeColor = System.Drawing.SystemColors.ControlText
         Me.optHeadType.SetIndex(Me._optHeadType_1, CType(1, Short))
-        Me._optHeadType_1.Location = New System.Drawing.Point(127, 321)
+        Me._optHeadType_1.Location = New System.Drawing.Point(13, 18)
         Me._optHeadType_1.Name = "_optHeadType_1"
         Me._optHeadType_1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me._optHeadType_1.Size = New System.Drawing.Size(129, 25)
@@ -350,12 +336,15 @@
         'frmPrintHeadType
         '
         Me.frmPrintHeadType.BackColor = System.Drawing.SystemColors.Control
+        Me.frmPrintHeadType.Controls.Add(Me._optHeadType_1)
+        Me.frmPrintHeadType.Controls.Add(Me._optHeadType_2)
+        Me.frmPrintHeadType.Controls.Add(Me._optHeadType_3)
         Me.frmPrintHeadType.ForeColor = System.Drawing.SystemColors.ControlText
         Me.frmPrintHeadType.Location = New System.Drawing.Point(98, 281)
         Me.frmPrintHeadType.Name = "frmPrintHeadType"
         Me.frmPrintHeadType.Padding = New System.Windows.Forms.Padding(0)
         Me.frmPrintHeadType.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.frmPrintHeadType.Size = New System.Drawing.Size(145, 121)
+        Me.frmPrintHeadType.Size = New System.Drawing.Size(158, 121)
         Me.frmPrintHeadType.TabIndex = 0
         Me.frmPrintHeadType.TabStop = False
         Me.frmPrintHeadType.Text = "Print Head Type"
@@ -481,6 +470,22 @@
         Me.btnRePot.Text = "RePot"
         Me.btnRePot.UseVisualStyleBackColor = False
         '
+        'txtTest
+        '
+        Me.txtTest.Location = New System.Drawing.Point(367, 197)
+        Me.txtTest.Name = "txtTest"
+        Me.txtTest.Size = New System.Drawing.Size(28, 20)
+        Me.txtTest.TabIndex = 61
+        '
+        'btnTest
+        '
+        Me.btnTest.Location = New System.Drawing.Point(401, 195)
+        Me.btnTest.Name = "btnTest"
+        Me.btnTest.Size = New System.Drawing.Size(63, 23)
+        Me.btnTest.TabIndex = 62
+        Me.btnTest.Text = "Shot Test"
+        Me.btnTest.UseVisualStyleBackColor = True
+        '
         'frmMainForm
         '
         Me.AcceptButton = Me.cmdSave
@@ -488,6 +493,8 @@
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(530, 597)
+        Me.Controls.Add(Me.btnTest)
+        Me.Controls.Add(Me.txtTest)
         Me.Controls.Add(Me.btnRePot)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.grpPanel)
@@ -496,12 +503,8 @@
         Me.Controls.Add(Me.cmdSave)
         Me.Controls.Add(Me.cmdCancel)
         Me.Controls.Add(Me.txtSerial)
-        Me.Controls.Add(Me._optHeadType_0)
         Me.Controls.Add(Me.cmdQuit)
         Me.Controls.Add(Me.Frame2)
-        Me.Controls.Add(Me._optHeadType_3)
-        Me.Controls.Add(Me._optHeadType_2)
-        Me.Controls.Add(Me._optHeadType_1)
         Me.Controls.Add(Me.frmPrintHeadType)
         Me.Controls.Add(Me.lblScore)
         Me.Controls.Add(Me.Label4)
@@ -522,6 +525,7 @@
         Me.MainMenu1.ResumeLayout(False)
         Me.MainMenu1.PerformLayout()
         Me.Frame2.ResumeLayout(False)
+        Me.frmPrintHeadType.ResumeLayout(False)
         CType(Me.optHeadType, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -530,5 +534,7 @@
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents grpPanel As System.Windows.Forms.Panel
     Public WithEvents btnRePot As Button
+    Friend WithEvents txtTest As TextBox
+    Friend WithEvents btnTest As Button
 #End Region
 End Class

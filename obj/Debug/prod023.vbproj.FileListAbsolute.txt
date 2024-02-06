@@ -83,7 +83,6 @@ E:\GitHubRepository\prod023\bin\log4net.dll
 E:\GitHubRepository\prod023\bin\MccDaq.dll
 E:\GitHubRepository\prod023\bin\log4net.xml
 E:\GitHubRepository\prod023\bin\MccDaq.xml
-E:\GitHubRepository\prod023\obj\Debug\prod023.vbprojAssemblyReference.cache
 E:\GitHubRepository\prod023\obj\Debug\prod023.frmMainForm.resources
 E:\GitHubRepository\prod023\obj\Debug\prod023.Resources.resources
 E:\GitHubRepository\prod023\obj\Debug\prod023.frmSetBitOut.resources
@@ -92,3 +91,4 @@ E:\GitHubRepository\prod023\obj\Debug\prod023.vbproj.CoreCompileInputs.cache
 E:\GitHubRepository\prod023\obj\Debug\prod023.vbproj.CopyComplete
 E:\GitHubRepository\prod023\obj\Debug\prod023.exe
 E:\GitHubRepository\prod023\obj\Debug\prod023.pdb
+E:\GitHubRepository\prod023\obj\Debug\prod023.vbprojAssemblyReference.cache
